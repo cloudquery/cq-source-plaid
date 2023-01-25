@@ -10,12 +10,12 @@ import (
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
-type response struct {
+type walletsResponse struct {
 	Wallets []plaid.Wallet `json:"wallets"`
 }
 
 func TestWallets(t *testing.T) {
-	var res response
+	var res walletsResponse
 	if err := faker.FakeObject(&res); err != nil {
 		t.Fatal(err)
 	}

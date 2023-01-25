@@ -16,6 +16,7 @@ func Plugin() *source.Plugin {
 		"plaid",
 		Version,
 		schema.Tables{
+			resources.Institutions(),
 			resources.Wallets(),
 		},
 		client.New,
