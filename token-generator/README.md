@@ -1,5 +1,7 @@
 # Plaid Access Token Generator
 
+> Mostly based on [Plaid's tiny quickstart](https://github.com/plaid/tiny-quickstart/tree/main/react)
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/en/download/) (v18.0.0 or higher)
