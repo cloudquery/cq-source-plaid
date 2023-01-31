@@ -1,4 +1,4 @@
-# CloudQuery plaid Source Plugin
+# CloudQuery Plaid Source Plugin
 
 [![test](https://github.com/cloudquery/cq-source-plaid/actions/workflows/test.yml/badge.svg)](https://github.com/cloudquery/cq-source-plaid/actions/workflows/test.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cloudquery/cq-source-plaid)](https://goreportcard.com/report/github.com/cloudquery/cq-source-plaid)
