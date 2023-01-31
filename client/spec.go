@@ -18,6 +18,7 @@ var Environments = map[string]plaid.Environment{
 type Spec struct {
 	ClientId    string `json:"client_id"`
 	Secret      string `json:"secret"`
+	AccessToken string `json:"access_token"`
 	Environment string `json:"environment"`
 }
 
@@ -35,6 +36,10 @@ func (s *Spec) Validate() error {
 
 	if s.Secret == "" {
 		errors = append(errors, `"secret" is required`)
+	}
+
+	if s.AccessToken == "" {
+		errors = append(errors, `"access_token" is required`)
 	}
 
 	if _, ok := Environments[s.Environment]; !ok {

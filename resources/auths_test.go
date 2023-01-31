@@ -10,14 +10,14 @@ import (
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
-func TestWallets(t *testing.T) {
-	var res plaid.WalletListResponse
+func TestAuths(t *testing.T) {
+	var res plaid.AuthGetResponse
 	if err := faker.FakeObject(&res); err != nil {
 		t.Fatal(err)
 	}
-	res.SetNextCursor("")
+
 	ts := client.TestServer(t, res)
 
 	defer ts.Close()
-	client.TestHelper(t, Wallets(), ts)
+	client.TestHelper(t, Auths(), ts)
 }

@@ -39,7 +39,7 @@ func fetchWallets(ctx context.Context, meta schema.ClientMeta, parent *schema.Re
 
 	res <- walletsResp.GetWallets()
 
-	if walletsResp.HasNextCursor() {
+	for walletsResp.GetNextCursor() != "" {
 		listRequest = newWalletListRequest(client, walletsResp.GetNextCursor())
 		walletsResp, _, err := client.Services.PlaidApi.WalletList(ctx).WalletListRequest(*listRequest).Execute()
 		if err != nil {
