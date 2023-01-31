@@ -16,8 +16,14 @@ func Plugin() *source.Plugin {
 		"plaid",
 		Version,
 		schema.Tables{
-			resources.Institutions(),
+			resources.Transactions(),
+			resources.Liabilities(),
+			resources.InvestmentsTransactions(),
+			resources.InvestmentsHoldings(),
+			resources.AccountBalances(),
+			resources.Auths(),
 			resources.Wallets(),
+			resources.Institutions(),
 		},
 		client.New,
 	)

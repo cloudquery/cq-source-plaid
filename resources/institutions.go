@@ -9,8 +9,6 @@ import (
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
-const count = 500
-
 func Institutions() *schema.Table {
 	return &schema.Table{
 		Name:      "plaid_institutions",
@@ -25,7 +23,7 @@ func fetchInstitutions(ctx context.Context, meta schema.ClientMeta, parent *sche
 	var total int32
 	for {
 		request := plaid.NewInstitutionsGetRequest(
-			count,
+			500,
 			total,
 			[]plaid.CountryCode{
 				plaid.COUNTRYCODE_US,

@@ -10,12 +10,8 @@ import (
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
-type institutionsResponse struct {
-	Institutions []plaid.Institution `json:"institutions"`
-}
-
 func TestInstitutions(t *testing.T) {
-	var res institutionsResponse
+	var res plaid.InstitutionsGetResponse
 	if err := faker.FakeObject(&res); err != nil {
 		t.Fatal(err)
 	}
@@ -26,8 +22,9 @@ func TestInstitutions(t *testing.T) {
 	res.Institutions[0].Status.Set(&plaid.InstitutionStatus{})
 	res.Institutions[0].PaymentInitiationMetadata.Set(&plaid.PaymentInitiationMetadata{})
 	res.Institutions[0].AuthMetadata.Set(&plaid.AuthMetadata{})
+	res.SetTotal(1)
 
-	ts := testServer(t, res)
+	ts := client.TestServer(t, res)
 
 	defer ts.Close()
 	client.TestHelper(t, Institutions(), ts)
