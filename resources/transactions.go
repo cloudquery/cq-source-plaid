@@ -35,7 +35,7 @@ type transaction struct {
 	TransactionType string `json:"_transaction_type"`
 }
 
-func saveTransactions(resp plaid.TransactionsSyncResponse, res chan<- interface{}) error {
+func saveTransactions(resp plaid.TransactionsSyncResponse, res chan<- interface{}) {
 	for _, t := range resp.Added {
 		res <- transaction{
 			Transaction:     t,
@@ -56,8 +56,6 @@ func saveTransactions(resp plaid.TransactionsSyncResponse, res chan<- interface{
 			TransactionType: "removed",
 		}
 	}
-
-	return nil
 }
 
 func fetchTransactions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
