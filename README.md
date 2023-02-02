@@ -18,7 +18,7 @@ The following source configuration file will sync [supported data points](./docs
 kind: source
 spec:
   name: "plaid"
-  path: "cloudquery/cq-source-plaid"
+  path: "cloudquery/plaid"
   version: "v1.0.0"
   destinations: [postgresql]
   spec:
