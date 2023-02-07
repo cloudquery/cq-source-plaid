@@ -8,7 +8,10 @@ A [Plaid](https://plaid.com/) source plugin for CloudQuery that loads data from 
 ## Links
 
 - [CloudQuery Quickstart Guide](https://www.cloudquery.io/docs/quickstart)
-- [Supported Tables](docs/tables/README.md)
+
+## Supported Resources
+
+For a full list of supported resources, see [the tables documentation](./docs/tables/README.md).
 
 ## Configuration
 
