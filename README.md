@@ -3,11 +3,7 @@
 [![test](https://github.com/cloudquery/cq-source-plaid/actions/workflows/test.yml/badge.svg)](https://github.com/cloudquery/cq-source-plaid/actions/workflows/test.yml)
 [![Go Report Card](https://goreportcard.com/badge/github.com/cloudquery/cq-source-plaid)](https://goreportcard.com/report/github.com/cloudquery/cq-source-plaid)
 
-A [Plaid](https://plaid.com/) source plugin for CloudQuery that loads data from the [Plaid API](https://plaid.com/docs/api/) to any database, data warehouse or data lake supported by [CloudQuery](https://www.cloudquery.io/), such as PostgreSQL, BigQuery, Athena, and many more.
-
-## Links
-
-- [CloudQuery Quickstart Guide](https://www.cloudquery.io/docs/quickstart)
+A [Plaid](https://plaid.com/) source plugin for CloudQuery that loads data from the [Plaid API](https://plaid.com/docs/api/) to any database, data warehouse or data lake supported by [CloudQuery](https://www.cloudquery.io/docs/quickstart), such as PostgreSQL, BigQuery, Athena, and many more.
 
 ## Supported Resources
 
