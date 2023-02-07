@@ -18,6 +18,7 @@ func Plugin() *source.Plugin {
 		schema.Tables{
 			resources.Transactions(),
 			resources.Liabilities(),
+			resources.Identities(),
 			resources.InvestmentsTransactions(),
 			resources.InvestmentsHoldings(),
 			resources.AccountBalances(),

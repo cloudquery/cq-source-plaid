@@ -6,7 +6,7 @@ const PRODUCTS = [
   "assets",
   // "auth",
   // "employment",
-  // "identity",
+  "identity",
   // "income_verification",
   // "identity_verification",
   "investments",
