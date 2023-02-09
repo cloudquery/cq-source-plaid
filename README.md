@@ -40,7 +40,8 @@ spec:
 
 - `access_token` (string, required):
 
-  A Plaid access token obtained by following the link authorization flow. We provide an [example application](./token-generator/README.md) to generate the token.
+  A Plaid access token obtained by following the link authorization flow. We provide an [example application](./token-generator/README.md) to generate a token for testing purposes only.
+  For production usage you should set up a hosted frontend application and backend server that saves access tokens from link authentication flows initiated by your users.
   See [the Plaid docs](https://plaid.com/docs/link/) for more information
 
 - `environment` (string, optional):
