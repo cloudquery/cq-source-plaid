@@ -100,7 +100,7 @@ make gen-docs
 
 ### Release a new version
 
-1. Follow [this link](https://github.com/simpleanalytics/cq-source-simpleanalytics/releases/new) to draft a new release.
+1. Follow [this link](https://github.com/cloudquery/cq-source-plaid/releases/new) to draft a new release.
 2. Click `Choose a tag` and enter the new version number:
    ![image](https://user-images.githubusercontent.com/26760571/219360662-0ad1f83d-84c9-47c8-afb9-fe774ce03dcc.png)
 3. Click `Create new tag: <version> on publish` assuming it's a new tag.
