@@ -1,19 +1,21 @@
 # Table: plaid_investments_holdings
 
+This table shows data for Plaid Investments Holdings.
+
 The primary key for this table is **item_id**.
 
 ## Columns
 
 | Name          | Type          |
 | ------------- | ------------- |
-|_cq_source_name|String|
-|_cq_sync_time|Timestamp|
-|_cq_id|UUID|
-|_cq_parent_id|UUID|
-|item_id (PK)|String|
-|accounts|JSON|
-|holdings|JSON|
-|securities|JSON|
-|item|JSON|
-|request_id|String|
-|additional_properties|JSON|
+|_cq_source_name|`utf8`|
+|_cq_sync_time|`timestamp[us, tz=UTC]`|
+|_cq_id|`uuid`|
+|_cq_parent_id|`uuid`|
+|item_id (PK)|`utf8`|
+|accounts|`json`|
+|holdings|`json`|
+|securities|`json`|
+|item|`json`|
+|request_id|`utf8`|
+|additional_properties|`json`|
