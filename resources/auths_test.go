@@ -1,12 +1,11 @@
 package resources
 
 import (
+	_ "embed"
 	"testing"
 
-	_ "embed"
-
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/faker"
+	"github.com/cloudquery/plugin-sdk/v3/faker"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
