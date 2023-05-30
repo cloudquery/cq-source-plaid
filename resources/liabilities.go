@@ -3,9 +3,10 @@ package resources
 import (
 	"context"
 
+	"github.com/apache/arrow/go/v13/arrow"
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/schema"
-	"github.com/cloudquery/plugin-sdk/transformers"
+	"github.com/cloudquery/plugin-sdk/v3/schema"
+	"github.com/cloudquery/plugin-sdk/v3/transformers"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
@@ -16,12 +17,10 @@ func Liabilities() *schema.Table {
 		Transform: transformers.TransformWithStruct(plaid.LiabilitiesGetResponse{}),
 		Columns: []schema.Column{
 			{
-				Name:     "item_id",
-				Type:     schema.TypeString,
-				Resolver: schema.PathResolver("Item.ItemId"),
-				CreationOptions: schema.ColumnCreationOptions{
-					PrimaryKey: true,
-				},
+				Name:       "item_id",
+				Type:       arrow.BinaryTypes.String,
+				Resolver:   schema.PathResolver("Item.ItemId"),
+				PrimaryKey: true,
 			},
 		},
 	}

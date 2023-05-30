@@ -3,8 +3,8 @@ package plugin
 import (
 	"github.com/cloudquery/cq-source-plaid/client"
 	"github.com/cloudquery/cq-source-plaid/resources"
-	"github.com/cloudquery/plugin-sdk/plugins/source"
-	"github.com/cloudquery/plugin-sdk/schema"
+	"github.com/cloudquery/plugin-sdk/v3/plugins/source"
+	"github.com/cloudquery/plugin-sdk/v3/schema"
 )
 
 var (

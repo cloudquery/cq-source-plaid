@@ -1,17 +1,19 @@
 # Table: plaid_identities
 
+This table shows data for Plaid Identities.
+
 The primary key for this table is **item_id**.
 
 ## Columns
 
 | Name          | Type          |
 | ------------- | ------------- |
-|_cq_source_name|String|
-|_cq_sync_time|Timestamp|
-|_cq_id|UUID|
-|_cq_parent_id|UUID|
-|item_id (PK)|String|
-|accounts|JSON|
-|item|JSON|
-|request_id|String|
-|additional_properties|JSON|
+|_cq_source_name|`utf8`|
+|_cq_sync_time|`timestamp[us, tz=UTC]`|
+|_cq_id|`uuid`|
+|_cq_parent_id|`uuid`|
+|item_id (PK)|`utf8`|
+|accounts|`json`|
+|item|`json`|
+|request_id|`utf8`|
+|additional_properties|`json`|

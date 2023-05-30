@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/cloudquery/plugin-sdk/schema"
+	"github.com/cloudquery/plugin-sdk/v3/schema"
 	"github.com/plaid/plaid-go/v10/plaid"
 	"github.com/thoas/go-funk"
 )

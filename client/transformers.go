@@ -3,17 +3,18 @@ package client
 import (
 	"reflect"
 
-	"github.com/cloudquery/plugin-sdk/schema"
-	"github.com/cloudquery/plugin-sdk/transformers"
+	"github.com/apache/arrow/go/v13/arrow"
+	"github.com/cloudquery/plugin-sdk/v3/schema"
+	"github.com/cloudquery/plugin-sdk/v3/transformers"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
-func typeTransformer(field reflect.StructField) (schema.ValueType, error) {
+func typeTransformer(field reflect.StructField) (arrow.DataType, error) {
 	switch reflect.New(field.Type).Elem().Interface().(type) {
 	case plaid.NullableTime:
-		return schema.TypeTimestamp, nil
+		return arrow.FixedWidthTypes.Timestamp_us, nil
 	default:
-		return schema.TypeInvalid, nil
+		return nil, nil
 	}
 }
 
