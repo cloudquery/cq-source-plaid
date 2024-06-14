@@ -10,9 +10,10 @@ import (
 	"testing"
 	"time"
 
-	"github.com/cloudquery/plugin-pb-go/specs"
-	"github.com/cloudquery/plugin-sdk/v3/plugins/source"
-	"github.com/cloudquery/plugin-sdk/v3/schema"
+	"github.com/cloudquery/plugin-sdk/v4/plugin"
+	"github.com/cloudquery/plugin-sdk/v4/scheduler"
+	"github.com/cloudquery/plugin-sdk/v4/schema"
+	"github.com/cloudquery/plugin-sdk/v4/transformers"
 	"github.com/plaid/plaid-go/v10/plaid"
 	"github.com/rs/zerolog"
 )
@@ -28,49 +29,67 @@ func TestServer(t *testing.T, data any) *httptest.Server {
 	return ts
 }
 
+func remove(s schema.ColumnList, i string) schema.ColumnList {
+	for j, c := range s {
+		if c.Name == i {
+			return append(s[:j], s[j+1:]...)
+		}
+	}
+
+	return s
+}
+
 func TestHelper(t *testing.T, table *schema.Table, ts *httptest.Server) {
-	version := "vDev"
 	table.IgnoreInTests = false
 	t.Helper()
-	l := zerolog.New(zerolog.NewTestWriter(t)).Output(zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.StampMicro}).Level(zerolog.DebugLevel).With().Timestamp().Logger()
 
-	newTestExecutionClient := func(ctx context.Context, logger zerolog.Logger, spec specs.Source, opts source.Options) (schema.ClientMeta, error) {
-		configuration := plaid.NewConfiguration()
-		configuration.UseEnvironment(plaid.Development)
-		urlParts := strings.Split(ts.URL, "://")
-		configuration.Scheme = urlParts[0]
-		configuration.Host = urlParts[1]
-		client := plaid.NewAPIClient(configuration)
-		s := Spec{
-			ClientId:    "test",
-			Secret:      "test",
-			AccessToken: "test",
-		}
-		s.SetDefaults()
-		err := s.Validate()
-		if err != nil {
-			return nil, err
-		}
-		return &Client{
-			Logger:   l,
-			Services: client,
-			ClientId: s.ClientId,
-			Secret:   s.Secret,
-		}, nil
+	l := zerolog.New(zerolog.NewTestWriter(t)).Output(
+		zerolog.ConsoleWriter{Out: os.Stderr, TimeFormat: time.StampMicro},
+	).Level(zerolog.DebugLevel).With().Timestamp().Logger()
+	sched := scheduler.NewScheduler(scheduler.WithLogger(l))
+
+	configuration := plaid.NewConfiguration()
+	configuration.UseEnvironment(plaid.Development)
+	urlParts := strings.Split(ts.URL, "://")
+	configuration.Scheme = urlParts[0]
+	configuration.Host = urlParts[1]
+	client := plaid.NewAPIClient(configuration)
+	s := Spec{
+		ClientId:    "test",
+		Secret:      "test",
+		AccessToken: "test",
 	}
-	p := source.NewPlugin(
-		table.Name,
-		version,
-		[]*schema.Table{
-			table,
-		},
-		newTestExecutionClient)
-	p.SetLogger(l)
-	source.TestPluginSync(t, p, specs.Source{
-		Name:         "dev",
-		Path:         "cloudquery/dev",
-		Version:      version,
-		Tables:       []string{table.Name},
-		Destinations: []string{"mock-destination"},
+	s.SetDefaults()
+	err := s.Validate()
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	c := &Client{
+		Logger:      l,
+		Services:    client,
+		ClientId:    s.ClientId,
+		Secret:      s.Secret,
+		AccessToken: s.AccessToken,
+	}
+
+	tables := schema.Tables{table}
+	if err := transformers.TransformTables(tables); err != nil {
+		t.Fatal(err)
+	}
+
+	// We need to remove additional_properties column from the table as faker cannot generate data with interface{} type
+	err = transformers.Apply(tables, func(table *schema.Table) error {
+		table.Columns = remove(table.Columns, "additional_properties")
+		return nil
 	})
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	messages, err := sched.SyncAll(context.Background(), c, tables)
+	if err != nil {
+		t.Fatalf("failed to sync: %v", err)
+	}
+	plugin.ValidateNoEmptyColumns(t, tables, messages)
 }

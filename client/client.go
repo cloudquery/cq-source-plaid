@@ -2,12 +2,10 @@ package client
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"strings"
 
-	"github.com/cloudquery/plugin-pb-go/specs"
-	"github.com/cloudquery/plugin-sdk/v3/plugins/source"
-	"github.com/cloudquery/plugin-sdk/v3/schema"
 	"github.com/hashicorp/go-retryablehttp"
 	"github.com/plaid/plaid-go/v10/plaid"
 	"github.com/rs/zerolog"
@@ -19,9 +17,10 @@ type Client struct {
 	ClientId    string
 	Secret      string
 	AccessToken string
+	Spec        Spec
 }
 
-func (c *Client) ID() string {
+func (*Client) ID() string {
 	return "plaid"
 }
 
@@ -29,7 +28,7 @@ type httpLogger struct {
 	zerolog.Logger
 }
 
-func (l httpLogger) Printf(format string, v ...interface{}) {
+func (l httpLogger) Printf(format string, v ...any) {
 	if strings.Contains(format, "retrying") {
 		l.Logger.Info().Msgf(format, v...)
 	} else {
@@ -37,10 +36,10 @@ func (l httpLogger) Printf(format string, v ...interface{}) {
 	}
 }
 
-func New(ctx context.Context, logger zerolog.Logger, s specs.Source, opts source.Options) (schema.ClientMeta, error) {
+func New(ctx context.Context, logger zerolog.Logger, s []byte) (*Client, error) {
 	var pluginSpec Spec
 
-	if err := s.UnmarshalSpec(&pluginSpec); err != nil {
+	if err := json.Unmarshal(s, &pluginSpec); err != nil {
 		return nil, fmt.Errorf("failed to unmarshal plugin spec: %w", err)
 	}
 

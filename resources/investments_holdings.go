@@ -3,10 +3,10 @@ package resources
 import (
 	"context"
 
-	"github.com/apache/arrow/go/v13/arrow"
+	"github.com/apache/arrow/go/v16/arrow"
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/v3/schema"
-	"github.com/cloudquery/plugin-sdk/v3/transformers"
+	"github.com/cloudquery/plugin-sdk/v4/schema"
+	"github.com/cloudquery/plugin-sdk/v4/transformers"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
@@ -26,10 +26,10 @@ func InvestmentsHoldings() *schema.Table {
 	}
 }
 
-func fetchInvestmentsHoldings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
-	request := plaid.NewInvestmentsHoldingsGetRequest(client.AccessToken)
-	resp, _, err := client.Services.PlaidApi.InvestmentsHoldingsGet(ctx).InvestmentsHoldingsGetRequest(*request).Execute()
+func fetchInvestmentsHoldings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
+	request := plaid.NewInvestmentsHoldingsGetRequest(cl.AccessToken)
+	resp, _, err := cl.Services.PlaidApi.InvestmentsHoldingsGet(ctx).InvestmentsHoldingsGetRequest(*request).Execute()
 	if err != nil {
 		return err
 	}

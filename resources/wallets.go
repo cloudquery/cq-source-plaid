@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/v3/schema"
-	"github.com/cloudquery/plugin-sdk/v3/transformers"
+	"github.com/cloudquery/plugin-sdk/v4/schema"
+	"github.com/cloudquery/plugin-sdk/v4/transformers"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
@@ -28,11 +28,11 @@ func newWalletListRequest(c *client.Client, cursor string) *plaid.WalletListRequ
 	return listRequest
 }
 
-func fetchWallets(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
-	listRequest := newWalletListRequest(client, "")
+func fetchWallets(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
+	listRequest := newWalletListRequest(cl, "")
 
-	walletsResp, _, err := client.Services.PlaidApi.WalletList(ctx).WalletListRequest(*listRequest).Execute()
+	walletsResp, _, err := cl.Services.PlaidApi.WalletList(ctx).WalletListRequest(*listRequest).Execute()
 	if err != nil {
 		return err
 	}
@@ -40,8 +40,8 @@ func fetchWallets(ctx context.Context, meta schema.ClientMeta, parent *schema.Re
 	res <- walletsResp.GetWallets()
 
 	for walletsResp.GetNextCursor() != "" {
-		listRequest = newWalletListRequest(client, walletsResp.GetNextCursor())
-		walletsResp, _, err := client.Services.PlaidApi.WalletList(ctx).WalletListRequest(*listRequest).Execute()
+		listRequest = newWalletListRequest(cl, walletsResp.GetNextCursor())
+		walletsResp, _, err := cl.Services.PlaidApi.WalletList(ctx).WalletListRequest(*listRequest).Execute()
 		if err != nil {
 			return err
 		}

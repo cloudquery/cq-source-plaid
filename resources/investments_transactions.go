@@ -4,10 +4,10 @@ import (
 	"context"
 	"time"
 
-	"github.com/apache/arrow/go/v13/arrow"
+	"github.com/apache/arrow/go/v16/arrow"
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/v3/schema"
-	"github.com/cloudquery/plugin-sdk/v3/transformers"
+	"github.com/cloudquery/plugin-sdk/v4/schema"
+	"github.com/cloudquery/plugin-sdk/v4/transformers"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
@@ -27,11 +27,11 @@ func InvestmentsTransactions() *schema.Table {
 	}
 }
 
-func fetchInvestmentsTransactions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
+func fetchInvestmentsTransactions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
 	today := time.Now().Format("2006-01-02")
-	request := plaid.NewInvestmentsTransactionsGetRequest(client.AccessToken, "2000-01-01", today)
-	resp, _, err := client.Services.PlaidApi.InvestmentsTransactionsGet(ctx).InvestmentsTransactionsGetRequest(*request).Execute()
+	request := plaid.NewInvestmentsTransactionsGetRequest(cl.AccessToken, "2000-01-01", today)
+	resp, _, err := cl.Services.PlaidApi.InvestmentsTransactionsGet(ctx).InvestmentsTransactionsGetRequest(*request).Execute()
 	if err != nil {
 		return err
 	}

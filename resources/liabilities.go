@@ -3,10 +3,10 @@ package resources
 import (
 	"context"
 
-	"github.com/apache/arrow/go/v13/arrow"
+	"github.com/apache/arrow/go/v16/arrow"
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/v3/schema"
-	"github.com/cloudquery/plugin-sdk/v3/transformers"
+	"github.com/cloudquery/plugin-sdk/v4/schema"
+	"github.com/cloudquery/plugin-sdk/v4/transformers"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
@@ -26,11 +26,11 @@ func Liabilities() *schema.Table {
 	}
 }
 
-func fetchLiabilities(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
+func fetchLiabilities(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
 
-	request := plaid.NewLiabilitiesGetRequest(client.AccessToken)
-	resp, _, err := client.Services.PlaidApi.LiabilitiesGet(ctx).LiabilitiesGetRequest(*request).Execute()
+	request := plaid.NewLiabilitiesGetRequest(cl.AccessToken)
+	resp, _, err := cl.Services.PlaidApi.LiabilitiesGet(ctx).LiabilitiesGetRequest(*request).Execute()
 	if err != nil {
 		return err
 	}
