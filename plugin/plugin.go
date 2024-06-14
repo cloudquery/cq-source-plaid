@@ -7,8 +7,8 @@ import (
 var (
 	Version = "development"
 	Kind    = "source"
-	Name    = "example"
-	Team    = "example-team"
+	Name    = "plaid"
+	Team    = "cloudquery"
 )
 
 func Plugin() *plugin.Plugin {
