@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/v3/schema"
-	"github.com/cloudquery/plugin-sdk/v3/transformers"
+	"github.com/cloudquery/plugin-sdk/v4/schema"
+	"github.com/cloudquery/plugin-sdk/v4/transformers"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
@@ -68,7 +68,7 @@ func fetchTransactions(ctx context.Context, meta schema.ClientMeta, parent *sche
 	}
 	saveTransactions(resp, res)
 
-	for resp.GetNextCursor() != "" {
+	for resp.HasMore {
 		request = newTransactionsSyncRequest(client, resp.GetNextCursor())
 		resp, _, err = client.Services.PlaidApi.TransactionsSync(ctx).TransactionsSyncRequest(*request).Execute()
 		if err != nil {

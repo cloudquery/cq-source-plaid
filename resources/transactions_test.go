@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/v3/faker"
+	"github.com/cloudquery/plugin-sdk/v4/faker"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 

@@ -1,31 +1,23 @@
 package plugin
 
 import (
-	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/cq-source-plaid/resources"
-	"github.com/cloudquery/plugin-sdk/v3/plugins/source"
-	"github.com/cloudquery/plugin-sdk/v3/schema"
+	"github.com/cloudquery/plugin-sdk/v4/plugin"
 )
 
 var (
 	Version = "development"
+	Kind    = "source"
+	Name    = "example"
+	Team    = "example-team"
 )
 
-func Plugin() *source.Plugin {
-	return source.NewPlugin(
+func Plugin() *plugin.Plugin {
+	return plugin.NewPlugin(
 		"plaid",
 		Version,
-		schema.Tables{
-			resources.Transactions(),
-			resources.Liabilities(),
-			resources.Identities(),
-			resources.InvestmentsTransactions(),
-			resources.InvestmentsHoldings(),
-			resources.AccountBalances(),
-			resources.Auths(),
-			resources.Wallets(),
-			resources.Institutions(),
-		},
-		client.New,
+		Configure,
+		plugin.WithKind(Kind),
+		plugin.WithTeam(Team),
+		plugin.WithConnectionTester(TestConnection),
 	)
 }
