@@ -26,11 +26,11 @@ func Identities() *schema.Table {
 	}
 }
 
-func fetchIdentities(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
+func fetchIdentities(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
 
-	request := plaid.NewIdentityGetRequest(client.AccessToken)
-	resp, _, err := client.Services.PlaidApi.IdentityGet(ctx).IdentityGetRequest(*request).Execute()
+	request := plaid.NewIdentityGetRequest(cl.AccessToken)
+	resp, _, err := cl.Services.PlaidApi.IdentityGet(ctx).IdentityGetRequest(*request).Execute()
 	if err != nil {
 		return err
 	}

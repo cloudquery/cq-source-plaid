@@ -26,10 +26,10 @@ func InvestmentsHoldings() *schema.Table {
 	}
 }
 
-func fetchInvestmentsHoldings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
-	request := plaid.NewInvestmentsHoldingsGetRequest(client.AccessToken)
-	resp, _, err := client.Services.PlaidApi.InvestmentsHoldingsGet(ctx).InvestmentsHoldingsGetRequest(*request).Execute()
+func fetchInvestmentsHoldings(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
+	request := plaid.NewInvestmentsHoldingsGetRequest(cl.AccessToken)
+	resp, _, err := cl.Services.PlaidApi.InvestmentsHoldingsGet(ctx).InvestmentsHoldingsGetRequest(*request).Execute()
 	if err != nil {
 		return err
 	}

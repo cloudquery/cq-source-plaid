@@ -17,8 +17,8 @@ func Institutions() *schema.Table {
 	}
 }
 
-func fetchInstitutions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
+func fetchInstitutions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
 
 	var total int32
 	for {
@@ -44,7 +44,7 @@ func fetchInstitutions(ctx context.Context, meta schema.ClientMeta, parent *sche
 				plaid.COUNTRYCODE_LV,
 			},
 		)
-		resp, _, err := client.Services.PlaidApi.InstitutionsGet(ctx).InstitutionsGetRequest(*request).Execute()
+		resp, _, err := cl.Services.PlaidApi.InstitutionsGet(ctx).InstitutionsGetRequest(*request).Execute()
 		if err != nil {
 			return err
 		}

@@ -26,11 +26,11 @@ func AccountBalances() *schema.Table {
 	}
 }
 
-func fetchAccountBalances(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
+func fetchAccountBalances(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
 
-	request := plaid.NewAccountsBalanceGetRequest(client.AccessToken)
-	resp, _, err := client.Services.PlaidApi.AccountsBalanceGet(ctx).AccountsBalanceGetRequest(*request).Execute()
+	request := plaid.NewAccountsBalanceGetRequest(cl.AccessToken)
+	resp, _, err := cl.Services.PlaidApi.AccountsBalanceGet(ctx).AccountsBalanceGetRequest(*request).Execute()
 	if err != nil {
 		return err
 	}

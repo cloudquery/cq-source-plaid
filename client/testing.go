@@ -37,7 +37,6 @@ func remove(s schema.ColumnList, i string) schema.ColumnList {
 	}
 
 	return s
-
 }
 
 func TestHelper(t *testing.T, table *schema.Table, ts *httptest.Server) {

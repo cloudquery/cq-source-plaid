@@ -35,7 +35,7 @@ type transaction struct {
 	TransactionType string `json:"_transaction_type"`
 }
 
-func saveTransactions(resp plaid.TransactionsSyncResponse, res chan<- interface{}) {
+func saveTransactions(resp plaid.TransactionsSyncResponse, res chan<- any) {
 	for _, t := range resp.Added {
 		res <- transaction{
 			Transaction:     t,
@@ -58,19 +58,19 @@ func saveTransactions(resp plaid.TransactionsSyncResponse, res chan<- interface{
 	}
 }
 
-func fetchTransactions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
+func fetchTransactions(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
 
-	request := newTransactionsSyncRequest(client, "")
-	resp, _, err := client.Services.PlaidApi.TransactionsSync(ctx).TransactionsSyncRequest(*request).Execute()
+	request := newTransactionsSyncRequest(cl, "")
+	resp, _, err := cl.Services.PlaidApi.TransactionsSync(ctx).TransactionsSyncRequest(*request).Execute()
 	if err != nil {
 		return err
 	}
 	saveTransactions(resp, res)
 
 	for resp.HasMore {
-		request = newTransactionsSyncRequest(client, resp.GetNextCursor())
-		resp, _, err = client.Services.PlaidApi.TransactionsSync(ctx).TransactionsSyncRequest(*request).Execute()
+		request = newTransactionsSyncRequest(cl, resp.GetNextCursor())
+		resp, _, err = cl.Services.PlaidApi.TransactionsSync(ctx).TransactionsSyncRequest(*request).Execute()
 		if err != nil {
 			return err
 		}

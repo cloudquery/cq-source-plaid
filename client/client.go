@@ -20,7 +20,7 @@ type Client struct {
 	Spec        Spec
 }
 
-func (c *Client) ID() string {
+func (*Client) ID() string {
 	return "plaid"
 }
 
@@ -28,7 +28,7 @@ type httpLogger struct {
 	zerolog.Logger
 }
 
-func (l httpLogger) Printf(format string, v ...interface{}) {
+func (l httpLogger) Printf(format string, v ...any) {
 	if strings.Contains(format, "retrying") {
 		l.Logger.Info().Msgf(format, v...)
 	} else {

@@ -26,11 +26,11 @@ func Auths() *schema.Table {
 	}
 }
 
-func fetchAuths(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- interface{}) error {
-	client := meta.(*client.Client)
+func fetchAuths(ctx context.Context, meta schema.ClientMeta, parent *schema.Resource, res chan<- any) error {
+	cl := meta.(*client.Client)
 
-	request := plaid.NewAuthGetRequest(client.AccessToken)
-	resp, _, err := client.Services.PlaidApi.AuthGet(ctx).AuthGetRequest(*request).Execute()
+	request := plaid.NewAuthGetRequest(cl.AccessToken)
+	resp, _, err := cl.Services.PlaidApi.AuthGet(ctx).AuthGetRequest(*request).Execute()
 	if err != nil {
 		return err
 	}
