@@ -80,10 +80,13 @@ func TestHelper(t *testing.T, table *schema.Table, ts *httptest.Server) {
 	}
 
 	// We need to remove additional_properties column from the table as faker cannot generate data with interface{} type
-	transformers.Apply(tables, func(table *schema.Table) error {
+	err = transformers.Apply(tables, func(table *schema.Table) error {
 		table.Columns = remove(table.Columns, "additional_properties")
 		return nil
 	})
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	messages, err := sched.SyncAll(context.Background(), c, tables)
 	if err != nil {
