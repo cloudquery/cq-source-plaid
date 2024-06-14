@@ -29,6 +29,17 @@ func TestServer(t *testing.T, data any) *httptest.Server {
 	return ts
 }
 
+func remove(s schema.ColumnList, i string) schema.ColumnList {
+	for j, c := range s {
+		if c.Name == i {
+			return append(s[:j], s[j+1:]...)
+		}
+	}
+
+	return s
+
+}
+
 func TestHelper(t *testing.T, table *schema.Table, ts *httptest.Server) {
 	table.IgnoreInTests = false
 	t.Helper()
@@ -67,6 +78,13 @@ func TestHelper(t *testing.T, table *schema.Table, ts *httptest.Server) {
 	if err := transformers.TransformTables(tables); err != nil {
 		t.Fatal(err)
 	}
+
+	// We need to remove additional_properties column from the table as faker cannot generate data with interface{} type
+	transformers.Apply(tables, func(table *schema.Table) error {
+		table.Columns = remove(table.Columns, "additional_properties")
+		return nil
+	})
+
 	messages, err := sched.SyncAll(context.Background(), c, tables)
 	if err != nil {
 		t.Fatalf("failed to sync: %v", err)

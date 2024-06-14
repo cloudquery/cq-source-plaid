@@ -14,6 +14,9 @@ func TestWallets(t *testing.T) {
 	if err := faker.FakeObject(&res); err != nil {
 		t.Fatal(err)
 	}
+
+	res.Wallets[0].Numbers.Bacs = *plaid.NewNullableRecipientBACS(plaid.NewRecipientBACS())
+
 	res.SetNextCursor("")
 	ts := client.TestServer(t, res)
 

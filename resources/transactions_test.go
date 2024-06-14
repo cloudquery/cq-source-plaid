@@ -32,6 +32,7 @@ func TestTransactions(t *testing.T) {
 	res.Added[0].SetPersonalFinanceCategory(plaid.PersonalFinanceCategory{})
 	res.Added[0].SetDatetime(time.Now())
 	res.NextCursor = ""
+	res.HasMore = false
 
 	ts := client.TestServer(t, res)
 
