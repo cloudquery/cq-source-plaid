@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/cloudquery/cq-source-plaid/client"
-	"github.com/cloudquery/plugin-sdk/v3/faker"
+	"github.com/cloudquery/plugin-sdk/v4/faker"
 	"github.com/plaid/plaid-go/v10/plaid"
 )
 
@@ -32,6 +32,7 @@ func TestTransactions(t *testing.T) {
 	res.Added[0].SetPersonalFinanceCategory(plaid.PersonalFinanceCategory{})
 	res.Added[0].SetDatetime(time.Now())
 	res.NextCursor = ""
+	res.HasMore = false
 
 	ts := client.TestServer(t, res)
 
